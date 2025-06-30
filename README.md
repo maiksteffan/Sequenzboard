@@ -1,17 +1,5 @@
 ## 🌟 Firmware Development Briefing – *Sequenzboard*
 
-**Prototype Video:**  
-
-
----
-
-### 🔄 Communication & Collaboration
-
-- **Weekly Sync:** 30-min meeting (demo + questions)
-- **Codebase:** Shared GitHub repo
-- **Style:** If anything’s unclear, feel free to ask anytime 🙂
-
----
 
 ### ⚙️ Hardware Overview
 
