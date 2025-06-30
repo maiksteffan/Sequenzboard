@@ -101,30 +101,27 @@ Sequence s = {"A", "G", "N", "P", "O", "R"};
 2. While hold A is touched: `displayTouched(A)`  
 3. If touched for ≥1s → `displaySuccess(A)` → `display(G)`  
 4. If contact breaks: `displayLostTouch(A)`  
-5. If broken for ≥1s → `displayFailedAnimation(A)`  
+5. If no contact for ≥1s → `displayLostBothTouchpoints()`  
 
 ---
 
 ### 💻 Display Logic (via LVGL)
 
-#### Main Menu
+#### Programms
 - Structured Workouts
 - High-Score Challenges
 - Multiplayer Mode
+
+#### UI
 
 ---
 
 ### 🧘 Structured Workouts
 
-- Select from predefined workouts (via JSON)
-- Each workout contains sequential sequences
-- Show total + current move
-```json
-{
-  "WorkoutTitle": "Warm-Up Routine",
-  "Sequences": [["A", "B"], ["C", "E", "F"], ["G", "H", "I"]]
-}
-```
+- Select from predefined workouts (JSON objects)
+- Each workout contains multiple sequences
+- Stats are shown during the workout
+
 
 ---
 
