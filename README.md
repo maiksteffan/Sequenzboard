@@ -97,7 +97,7 @@ void displayWelcomeAnimation();
 Coordinates user interaction:
 - Reads `TouchStripController`
 - Controls `LedStripController`
-- Validates logic (e.g. successful touch, timeout, sequence lost)
+- Updates `DisplayController`
 
 ---
 
