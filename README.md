@@ -1,148 +1,241 @@
-## 🌟 Firmware Development Briefing – *Sequenzboard*
+# Sequenzboard Firmware Repository
 
-
-### ⚙️ Hardware Overview
-
-| Component        | Description                            |
-|------------------|----------------------------------------|
-| MCU              | ESP32-P4-Module-DEV-KIT-C              |
-| LED Strips       | 2 × WS2812                             |
-| Touch Sensors    | 26 × Custom PCBs (connected via I²C)   |
+Welcome! This repository contains the firmware development for the **Sequenzboard** – an interactive, LED-guided training board inspired by climbing movement.  
+This document outlines the system architecture, milestones, and expectations to help guide the firmware implementation process.
 
 ---
 
-### 🧰 Tech Stack
+## 🎯 Project Goal
 
-- **Framework**: ESP-IDF  
-- **Editor**: VS Code  
-- **Core Libraries**:  
-  - LVGL (UI)  
-  - FreeRTOS (Multitasking)  
+Develop a modular, reliable firmware stack for the Sequenzboard that enables responsive training interactions, visual feedback, and remote updates.
 
 ---
 
-### 🧠 General Firmware Requirements
+## 📌 Milestones & Features
 
-- Robust and stable in real-world use
-- Modular and maintainable structure
-- OTA support (Remote firmware updates)
-- Clean codebase with documentation
-- Performance-efficient (touch latency, LED feedback)
+### 1. Helper Methods (Hardware Abstraction)
+Provide foundational helper methods for implementing training program logic. These methods abstract the control of:
+
+- **LED Strips** – Visual Feedback (WS2812)
+- **Touch Sensors** – User Input (26 I²C-capable custom PCBs)
+- **Display** – User Interface + Touch Input (LVGL-based)
+
+These methods will form the backbone of the training program logic and allow for scalable implementation of training types.
 
 ---
 
-### 🧱 Logical Structure Overview (UML-style)
+### 2. Navigable UI
 
-#### 🧹 Hold Model
+- Touch-based menu system
+- Users can browse and select from different training modes
+- Upon selection, the training starts automatically
+
+Supported modes:
+-  Structured Workouts
+-  Highscore Challenges
+-  Multiplayer Game ("Packing List")
+
+---
+
+### 3. Interaction Handling
+
+Once a training session is running, real-time interaction between the following components is orchestrated:
+
+- LED strips → visual instruction & feedback  
+- Touch sensors → user input tracking  
+- Display → progress indication + additional input
+
+---
+
+### 4. Program Content (v1.0)
+Initial firmware should support:
+
+- 10 **Workouts** (each with 3–10 levels)
+- 3 **High Score Challenge** modes
+- 1 **Multiplayer Game**: *"Packing List"* (Kofferpacken)
+
+> 💡 UI should be **functionally complete**, but design aesthetics can be refined later.
+
+---
+
+### 5. Remote Updates
+
+The system must support **OTA (Over-the-Air)** updates, allowing firmware, content, and UI enhancements to be remotely delivered.
+
+---
+
+## 🛠️ Hardware Overview
+
+| Component         | Details                          |
+|------------------|----------------------------------|
+| **MCU**          | ESP32-P4-Module-DEV-KIT-C        |
+| **Display**      | Capacitive Touchscreen (LVGL)    |
+| **LED Strips**   | 2x WS2812                        |
+| **Touch Sensors**| 26x I²C Custom PCBs              |
+
+---
+
+## 🧰 Tech Stack
+
+- **Framework:** ESP-IDF  
+- **Editor:** Visual Studio Code  
+- **UI Library:** LVGL  
+- **RTOS:** FreeRTOS
+
+---
+
+## 📦 General Software Requirements
+
+- ✅ Reliable  
+- ✅ Maintainable  
+- ✅ OTA Update-Ready  
+- ✅ Efficient  
+- ✅ Well Documented
+
+---
+
+# Sequenzboard Firmware – Component Overview
+
+This section outlines the core components and logic structure of the Sequenzboard firmware. It serves as a reference for implementing the interaction system and training modes.
+
+### Hold Layout
 ```cpp
+// Logical mapping A-Z for 26 holds
 struct Hold {
-  char id;         // 'A' - 'Z'
-  int ledPos;      // Physical LED position
-  int touchPos;    // Physical sensor position
+    char id;         // e.g. 'A'
+    int ledPos;
+    int touchPos;
 };
 ```
 
 ---
 
-### 🖛 TouchStripController
+## 🧩 Touch Controller
 
-Handles input from 26 I²C touch sensors.
+**`TouchStripController` Class**
 
-#### Required Methods:
 ```cpp
-std::vector<Hold> touched(); 
-// Returns currently touched holds (max. 2 at once)
+touched(); // Returns currently touched holds (max. 2)
 ```
 
 ---
 
-### 💡 LedStripController
+## 💡 LED Controller
 
-Controls WS2812 visual feedback.
+**`LedStripController` Class**
 
-#### Required Methods:
 ```cpp
-void display(const Hold& hold);               
-// Lights up LED at hold.ledPos
-
-void displayTouched(const Hold& hold);        
-// Animation: Expand while touched, contract when released
-
-void displaySuccess(const Hold& hold);        
-// Animation for hold touched ≥ 1s
-
-void displayLostBothTouchpoints(const Hold& h1, const Hold& h2);
-// Called when user leaves both grips (fall)
-
-void displayVictoryAnimation();               
-void displayWelcomeAnimation();               
+display(hold);
+displayTouched(hold);
+displaySuccess(hold);
+displayLostBothTouchpoints(hold_1, hold_2);
+displayVictoryAnimation();
+displayWelcomeAnimation();
 ```
 
 ---
 
-### 🤖 InteractionController
+## 🎮 Interaction Controller
 
-Coordinates user interaction:
-- Reads `TouchStripController`
-- Controls `LedStripController`
-- Updates `DisplayController`
+Handles user input via the touch sensors and triggers visual feedback via the LED strip.
 
 ---
 
-### 🔁 Sequence Logic
+## 🔁 Sequence Logic
 
-A sequence = ordered list of holds, e.g.
+A sequence is a list of ordered holds (e.g. A → G → N → P).
+
 ```cpp
-Sequence s = {"A", "G", "N", "P", "O", "R"};
+Sequence sequence = generateSequence({A, G, N, P});
 ```
 
-#### Flow:
-1. `display(A)` lights up hold A  
-2. While hold A is touched: `displayTouched(A)`  
-3. If touched for ≥1s → `displaySuccess(A)` → `display(G)`  
-4. If contact breaks: `displayLostTouch(A)`  
-5. If no contact for ≥1s → `displayLostBothTouchpoints()`  
+### Example Process:
+
+1. `display(A)`
+2. If `A` is touched → `displayTouched(A)`
+3. If held ≥ 1s → `displaySuccess(A)` → show next
+4. If contact lost → `displayLostTouch(A)`
 
 ---
 
-### 💻 Display Logic (via LVGL)
+## 🖥️ UI & Training Modes
 
-#### Programms
-- Structured Workouts
-- High-Score Challenges
-- Multiplayer Mode
+### Menu Navigation
 
-#### UI
+Users can select from:
 
----
-
-### 🧘 Structured Workouts
-
-- Select from predefined workouts (JSON objects)
-- Each workout contains multiple sequences
-- Stats are shown during the workout
-
+- Structured Workouts  
+- High-Score Challenges  
+-  Multiplayer Game  
 
 ---
 
-### 🧠 High-Score Challenges
+### 🧗 Workouts (JSON-based)
 
-- *Memory Mode*: How many sequences can you remember?
-- *Reaction Mode*: How fast do you respond to the next light-up?
-- *Streak Mode*: Longest successful sequence in a row
+Each workout is a list of sequences:
+
+```json
+{
+  "WorkoutTitle": "Core Blast",
+  "Sequences": [
+    ["A", "B", "D"],
+    ["G", "N", "P", "O"]
+  ]
+}
+```
 
 ---
 
-### 👫 Multiplayer Mode
+### ⏱ Highscore Challenges
 
-- Two players alternate turns
-- Add one move each round (“I packed my suitcase” style)
-- Detects modes like:
-  - `normal`
-  - `doubleDyno`
+#### Memory Challenge  
+How many sequences can you remember?  
+**Today’s best:** 15
+
+#### Reaction Time  
+How fast can you react to a lit grip?  
+**Today’s best:** 300 ms
+
+#### Chain Sequences  
+Like “I packed my suitcase” — repeat and extend sequences.  
+**Current streak:** 35
+
+---
+
+### 🧑‍🤝‍🧑 Multiplayer Game: *"Packing List"*
+
+- Players take turns adding a move to the sequence  
+- Works similarly to memory games  
+- System automatically detects player actions  
+- Includes game modes:
   - `oneHandDyno`
+  - `DoubleDyno`
+  - `Normal`
 
 ---
 
-Feel free to reach out with questions, suggestions, or requests for further clarifications — we're happy to iterate together!
+## 🔄 Update Process
 
+- Firmware must support **remote OTA updates**
+- Future extension: sync workouts/challenges from a server
+
+---
+
+## 📎 Notes for Developer
+
+- Use modular, reusable classes for hardware components  
+- Avoid hard-coded logic in UI or training modes  
+- If anything is unclear → **please ask!** 🙏
+
+---
+
+## 📐 UML Diagram
+
+_To be added in the next update._
+
+---
+
+## 🤝 Collaboration
+
+We’re happy to support any questions or discuss improvements.  
+Let’s build a solid foundation for a great firmware experience.
