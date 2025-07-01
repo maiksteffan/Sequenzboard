@@ -28,7 +28,7 @@ These methods will form the backbone of the training program logic and allow for
 
 - Touch-based menu system
 - Users can browse and select from different training modes
-- Upon selection, the training starts automatically
+- Upon selection, the training starts automatically (starts a placeholder program at this stage)
 
 Supported modes:
 -  Structured Workouts
@@ -50,7 +50,7 @@ Once a training session is running, real-time interaction between the following 
 ### 4. Program Content (v1.0)
 Initial firmware should support:
 
-- 10 **Workouts** (each with 3–10 levels)
+- **Guided Workouts** (each with 3–10 levels)
 - 3 **High Score Challenge** modes
 - 1 **Multiplayer Game**: *"Packing List"* (Kofferpacken)
 
@@ -69,8 +69,8 @@ The system must support **OTA (Over-the-Air)** updates, allowing firmware, conte
 | Component         | Details                          |
 |------------------|----------------------------------|
 | **MCU**          | ESP32-P4-Module-DEV-KIT-C        |
-| **Display**      | Capacitive Touchscreen (LVGL)    |
-| **LED Strips**   | 2x WS2812                        |
+| **Display**      | Capacitive Touchscreen    |
+| **LED Strips**   | 1x WS2812                        |
 | **Touch Sensors**| 26x I²C Custom PCBs              |
 
 ---
@@ -125,12 +125,12 @@ touched(); // Returns currently touched holds (max. 2)
 **`LedStripController` Class**
 
 ```cpp
-display(hold);
-displayTouched(hold);
-displaySuccess(hold);
-displayLostBothTouchpoints(hold_1, hold_2);
-displayVictoryAnimation();
 displayWelcomeAnimation();
+displayHold();
+displayTouched();
+displaySuccess();
+displayLostBothTouchpoints();
+displayVictoryAnimation();
 ```
 
 ---
@@ -189,7 +189,7 @@ Each workout is a list of sequences:
 ### ⏱ Highscore Challenges
 
 #### Memory Challenge  
-How many sequences can you remember?  
+How many consecutive Moves can you remember?  
 **Today’s best:** 15
 
 #### Reaction Time  
@@ -197,7 +197,7 @@ How fast can you react to a lit grip?
 **Today’s best:** 300 ms
 
 #### Chain Sequences  
-Like “I packed my suitcase” — repeat and extend sequences.  
+How many consecutive moves can you do without stepping off?
 **Current streak:** 35
 
 ---
