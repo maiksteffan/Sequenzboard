@@ -205,7 +205,6 @@ How many consecutive moves can you do without stepping off?
 ### 🧑‍🤝‍🧑 Multiplayer Game: *"Packing List"*
 
 - Players take turns adding a move to the sequence  
-- Works similarly to memory games  
 - System automatically detects player actions  
 - Includes game modes:
   - `oneHandDyno`
