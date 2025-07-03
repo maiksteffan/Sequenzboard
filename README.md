@@ -25,40 +25,30 @@ These methods will form the backbone of the training program logic and allow for
 ---
 
 ### 2. Navigable UI
-
-- Touch-based menu system
 - Users can browse and select from different training modes
 - Upon selection, the training starts automatically (starts a placeholder program at this stage)
 
-Supported modes:
--  Structured Workouts
--  Highscore Challenges
--  Multiplayer Game ("Packing List")
-
 ---
 
-### 3. Interaction Handling
-
+### 3. Training Programm Logic
+The User can choose from The following Training-Modes: 
+(The different Modes will be explained later)
+- **Guided Workouts**
+- 3 **High Score Challenge modes**
+- 1 **Multiplayer Game**
+  
+Those Modes will use similar Methods from the controller classes but orchestrate them differntly. 
 Once a training session is running, real-time interaction between the following components is orchestrated:
-
 - LED strips → visual instruction & feedback  
-- Touch sensors → user input tracking  
+- Touch sensors → user input  
 - Display → progress indication + additional input
 
----
-
-### 4. Program Content (v1.0)
-Initial firmware should support:
-
-- **Guided Workouts** (each with 3–10 levels)
-- 3 **High Score Challenge** modes
-- 1 **Multiplayer Game**: *"Packing List"* (Kofferpacken)
-
-> 💡 UI should be **functionally complete**, but design aesthetics can be refined later.
+**Important: The different interactions shouldn't block each other. 
+For example, while listening to touch inputs from the grips, the user should still be able to use the touchdisplay**
 
 ---
 
-### 5. Remote Updates
+### 4. Remote Updates
 
 The system must support **OTA (Over-the-Air)** updates, allowing firmware, content, and UI enhancements to be remotely delivered.
 
@@ -125,52 +115,30 @@ touched(); // Returns currently touched holds (max. 2)
 **`LedStripController` Class**
 
 ```cpp
-displayWelcomeAnimation();
 displayHold();
 displayTouched();
 displaySuccess();
-displayLostBothTouchpoints();
+displayWelcomeAnimation();
 displayVictoryAnimation();
 ```
-
----
-
-## 🎮 Interaction Controller
-
-Handles user input via the touch sensors and triggers visual feedback via the LED strip.
-
 ---
 
 ## 🔁 Sequence Logic
 
 A sequence is a list of ordered holds (e.g. A → G → N → P).
 
-```cpp
-Sequence sequence = generateSequence({A, G, N, P});
-```
-
 ### Example Process:
 
 1. `display(A)`
-2. If `A` is touched → `displayTouched(A)`
+2. while `A` is touched → `displayTouched(A)`
 3. If held ≥ 1s → `displaySuccess(A)` → show next
-4. If contact lost → `displayLostTouch(A)`
+4. If contact lost → `displayFailed()
 
 ---
 
-## 🖥️ UI & Training Modes
+## 🖥️ Training Modes
 
-### Menu Navigation
-
-Users can select from:
-
-- Structured Workouts  
-- High-Score Challenges  
--  Multiplayer Game  
-
----
-
-### 🧗 Workouts (JSON-based)
+### 🧗Structured Workouts (Workouts are stored as JSON objects)
 
 Each workout is a list of sequences:
 
@@ -205,11 +173,10 @@ How many consecutive moves can you do without stepping off?
 ### 🧑‍🤝‍🧑 Multiplayer Game: *"Packing List"*
 
 - Players take turns adding a move to the sequence  
-- System automatically detects player actions  
-- Includes game modes:
+- System automatically detects player actions:
   - `oneHandDyno`
   - `DoubleDyno`
-  - `Normal`
+  - `Normal Move`
 
 ---
 
