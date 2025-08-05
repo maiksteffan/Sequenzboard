@@ -2,6 +2,8 @@
 
 Welcome! This repository contains the firmware development for the **Sequenzboard** – an interactive, LED-guided training board inspired by climbing movement.  
 This document outlines the system architecture, milestones, and expectations to help guide the firmware implementation process.
+Here is a short Video of the first prototype, to show the core Idea of the Project: 
+https://www.youtube.com/watch?v=UWB_lbbr7Gs
 
 ---
 
@@ -26,7 +28,9 @@ These methods will form the backbone of the training program logic and allow for
 
 ### 2. Navigable UI
 - Users can browse and select from different training modes
-- Upon selection, the training starts automatically 
+- Upon selection, the training starts automatically
+This UI shows which Programs should be implemented, how they work and what information needs to be displayed:
+https://msv8v1.axshare.com
 
 ---
 
@@ -90,9 +94,9 @@ The system must support **OTA (Over-the-Air)** updates, allowing firmware, conte
 - If two Holds are not seperated by a comma, they should be touched simoulatiously within a tolerance of 500ms. (e.g. "AR,TE,VY")
 - The two different Touch-LED Interactions can also be combined. (e.g "A,R,T,E,VY")
 
-Try out how Sequeces are interpreted from a Sequence-String:
+**Try out how Sequeces are interpreted from a Sequence-String:
 https://editor.p5js.org/maikstf/full/QCS-UwFKY
-(The hands in the simoulation show, which touches are expected. If the expected touches differ from the actual touches, it is detected as "stepping of".)
+(The hands in the simoulation show, which touches are expected. If the expected touches differ from the actual touches, it is detected as "stepping of".)**
 
 Try those examples to see how the algorithm should work:
 - Sequence("A,R,T,E,V,Y")
