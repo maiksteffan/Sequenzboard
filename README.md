@@ -118,7 +118,7 @@ In case a Sequence has been completed sucessfully, a victory animation should be
   - Amount of Moves (calculated from List of Sequences)
 - When in Workout view:
   - The current hand that should touch the next Hold is animated. (like shown in the UI)
-    - The Hand that needs to touch next Hold alternates. (e.g A-> Right Hand, R-> Left Hand, T-> Right Hand, E-> Left Hand, VY-> Both Hands
+    - The Hand that needs to touch next Hold alternates. (e.g "A,R,T,E,VY": A-> Right Hand, R-> Left Hand, T-> Right Hand, E-> Left Hand, VY-> Both Hands
   - The current Move and Level is displayed.
   - When completing a Sequence, the level is marked as success(green) and you get to the next Level.
   - When stepping down before the Sequence is done, the Level is marked as failed(red) and you move on to the next Level. 
