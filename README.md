@@ -127,12 +127,14 @@ In case a Sequence has been completed sucessfully, a victory animation should be
 - Local Storage for different Sequences for the Speed Highscore Challenge with a length of 10
 - Local Storage for a Sequence for the Endurance Highscore Challenge with a length of 1000, that always starts at a different index
 - The current Highscore for every challenge gets reset everyday at 0.00 o'clock
+- Every attemt is displayed as "Last"
+- When you beat the daily Highscore, a victory animation is displayed on the led strip as well as on the display. Then the user can Type in their name which is then listed next to the new Highscore. 
   ### Speed Highscore
   - measures how long you take to complete the Sequence
   - The time someone needs to complete is the Speed Highscore
   ## Endurance Highscore
   - measures how many moves you can climb without stepping down.
-  - The amount of moves makes the highscore.
+  - The amount of moves, makes the highscore.
   ### Reaction Highscore
   - the holds appear with a random delay
   - the reaction time between the appearing and the touching of a hold is measured
