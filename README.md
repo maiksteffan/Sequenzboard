@@ -85,21 +85,66 @@ The system must support **OTA (Over-the-Air)** updates, allowing firmware, conte
 ---
 
 # Programms to implement
+## Sequences 
+Sequences are the main Part of every program.  
+They consist of a List of Holds, seperated by a comma, that need to be touched in a consecutive order. 
+For example "A,R,T,E,V,Y".
+If two Holds are not seperated by a comma, they should be touched simoulatiously within a tolerance of 500ms. 
+For example "AR,TE,VY"
+The two different Touch-LED Interactions can also be combined like this:
+In this example you only touch the last two holds simoulatiously: "A,R,T,E,VY"
+
+Try out how Sequeces are interpreted from a Sequence-String:
+https://editor.p5js.org/maikstf/full/QCS-UwFKY
+(The hands in the simoulation show, which touches are expected. If the expected touches differ from the actual touches, it is detected as "stepping of".)
+
+Try those examples to see how the algorithm should work:
+- Sequence("A,R,T,E,V,Y")
+- Sequence("AR,TE,VY")
+
+In case a Sequence has been completed sucessfully, a victory animation should be played on the led strips. 
 
 ## Workouts
 - Local Storage for Workouts as JSON objects
-- Workouts consist of: ...
-- When in Workout view 
-
+- Workout Objects consist of:
+  - A List of Sequences (Levels)
+  - A Animation.GIF, that displays the Movement instructions
+  - Additional Gif-Info
+  - A Category that describes the Workout
+  - Duration of the Workout in minutes
+  - Difficulty of the Workout
+  - Amount of Moves (calculated from List of Sequences)
+- When in Workout view:
+  - The current hand is animated. 
+  - The current Move and Level is displayed.
+  - When completing a Sequence, the level is marked as success(green) and you get to the next Level.
+  - When stepping down before the Sequence is done, the Level is marked as failed(red) and you move on to the next Level. 
 ## Highscore Challenges
-- Local Storage for different Sequences, that change for every attempt
-### Speed Challenge
-- measures how long you take to complete the Sequence
-### Reaction Challenge
-- measures the time between the time the 
-
+- Local Storage for different Sequences for the Reaction Highscore Challenge with a length of 5
+- Local Storage for different Sequences for the Speed Highscore Challenge with a length of 10
+- Local Storage for a Sequence for the Endurance Highscore Challenge with a length of 1000, that always starts at a different index
+- The current Highscore for every challenge gets reset everyday at 0.00 o'clock
+  ### Speed Highscore
+  - measures how long you take to complete the Sequence
+  - The time someone needs to complete is the Speed Highscore
+  ## Endurance Highscore
+  - measures how many moves you can climb without stepping down.
+  - The amount of moves makes the highscore.
+  ### Reaction Highscore
+  - the holds appear with a random delay
+  - the reaction time between the appearing and the touching of a hold is measured
+  - the sum of the reaction time is the Reaction Highscore
 ## Creative Mode
+- as soon as you start climbing, the moves are being detected and added to your sequence. This counts up the record-counter. 
+- As soon as you step down, you can repeat your recoreded Sequence as many times as you want.
+- When clicking the restart button, you can record a new Sequence
+## Climbing Game (Kofferpacken)
+- after selecting the amount of players and pressing play, the game starts
+- the first player has to touch the first two holds
+- the next player has to repeat touching the first two holds and add the next two touches....(and so on)
+- each player can decide, whether he wants to make a single move or wants to move with both hands simoultaniously.
+- If you can't repeat the current Sequence and step down, you lose a life.
+- The Game is over, when there is only one remeining player. 
 
-## Climbing Game
 
 
