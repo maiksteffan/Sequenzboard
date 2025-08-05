@@ -110,7 +110,7 @@ In case a Sequence has been completed sucessfully, a victory animation should be
 - Local Storage for Workouts as JSON objects
 - Workout Objects consist of:
   - A List of Sequences (Levels)
-  - A Animation.GIF, that displays the Movement instructions
+  - A Animation.GIF, that displays the Movement instructions for the Workout
   - Additional Gif-Info
   - A Category that describes the Workout
   - Duration of the Workout in minutes
