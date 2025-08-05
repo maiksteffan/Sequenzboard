@@ -87,8 +87,7 @@ The system must support **OTA (Over-the-Air)** updates, allowing firmware, conte
 - ✅ Well Documented
 
 ---
-# Core Interaction for every program
-## Sequences 
+## Core Interaction for every program: "Sequences"
 - Sequences are the main Part of every program.  
 - They consist of a List of Holds, seperated by a comma, that need to be touched in a consecutive order. (e.g. "A,R,T,E,V,Y")
 - If two Holds are not seperated by a comma, they should be touched simoulatiously within a tolerance of 500ms. (e.g. "AR,TE,VY")
