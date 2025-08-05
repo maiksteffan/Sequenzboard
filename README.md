@@ -2,8 +2,7 @@
 
 Welcome! This repository contains the firmware development for the **Sequenzboard** – an interactive, LED-guided training board inspired by climbing movements.
 
-Watch the prototype in action: [Prototype Video](https://www.youtube.com/watch?v=UWB_lbbr7Gs)
-
+Watch the prototype in action: 
 ---
 
 ## 🎯 Project Goal
