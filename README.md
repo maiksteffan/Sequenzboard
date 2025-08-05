@@ -83,16 +83,12 @@ The system must support **OTA (Over-the-Air)** updates, allowing firmware, conte
 - ✅ Well Documented
 
 ---
-
-# Programms to implement
+# Core Interaction for every program
 ## Sequences 
-Sequences are the main Part of every program.  
-They consist of a List of Holds, seperated by a comma, that need to be touched in a consecutive order. 
-For example "A,R,T,E,V,Y".
-If two Holds are not seperated by a comma, they should be touched simoulatiously within a tolerance of 500ms. 
-For example "AR,TE,VY"
-The two different Touch-LED Interactions can also be combined like this:
-In this example you only touch the last two holds simoulatiously: "A,R,T,E,VY"
+- Sequences are the main Part of every program.  
+- They consist of a List of Holds, seperated by a comma, that need to be touched in a consecutive order. (e.g. "A,R,T,E,V,Y")
+- If two Holds are not seperated by a comma, they should be touched simoulatiously within a tolerance of 500ms. (e.g. "AR,TE,VY")
+- The two different Touch-LED Interactions can also be combined. (e.g "A,R,T,E,VY")
 
 Try out how Sequeces are interpreted from a Sequence-String:
 https://editor.p5js.org/maikstf/full/QCS-UwFKY
@@ -101,9 +97,11 @@ https://editor.p5js.org/maikstf/full/QCS-UwFKY
 Try those examples to see how the algorithm should work:
 - Sequence("A,R,T,E,V,Y")
 - Sequence("AR,TE,VY")
+- Sequence("A,R,T,E,VY")
 
 In case a Sequence has been completed sucessfully, a victory animation should be played on the led strips. 
 
+# Programms to implement
 ## Workouts
 - Local Storage for Workouts as JSON objects
 - Workout Objects consist of:
