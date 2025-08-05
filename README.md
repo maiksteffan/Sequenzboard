@@ -94,7 +94,9 @@ The system must support **OTA (Over-the-Air)** updates, allowing firmware, conte
 ## Highscore Challenges
 - Local Storage for different Sequences, that change for every attempt
 ### Speed Challenge
-- measures how long you take to complete the Sequence 
+- measures how long you take to complete the Sequence
+### Reaction Challenge
+- measures the time between the time the 
 
 ## Creative Mode
 
