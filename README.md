@@ -59,7 +59,7 @@ Firmware, content, and UI enhancements must support secure and efficient OTA upd
 | **MCU**           | ESP32-P4-Module-DEV-KIT-B     |
 | **Display**       | Capacitive Touchscreen (LVGL) |
 | **LED Strips**    | WS2812 (2 strips)              |
-| **Touch Sensors** | 26x I²C custom PCBs           |
+| **Touch Sensors** | 25x I²C custom PCBs           |
 
 ---
 
